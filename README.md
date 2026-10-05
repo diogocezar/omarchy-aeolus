@@ -19,42 +19,51 @@
 
 ---
 
-**Aeolus controls the fans plugged into your motherboard** (case fans, radiator
-fans, the pump of a liquid cooler) from one icon in your Omarchy bar, by the
-temperature of your CPU and graphics card.
+**Aeolus is a bar widget that keeps your PC as quiet as it can be, and never
+too hot.** It drives the fans plugged into your motherboard (case fans,
+radiator fans, the pump of a liquid cooler) by the temperature of your CPU and
+graphics card, from one icon in your Omarchy bar.
 
 Out of the box, many boards run those headers on aggressive firmware curves,
 or flat at 100%, and on Linux there's no Armoury Crate, Fan Xpert or SignalRGB
-to tame them. Aeolus does that job: its **Auto** mode keeps the CPU under a
-target temperature with the least air it takes, so the PC is close to silent
-when idle and only gets loud when a long, heavy load actually needs it.
+to tame them. Aeolus does that job. Its **Auto** mode holds the CPU under a
+target temperature with the least air it takes: close to silent when idle,
+and only as loud as a long, heavy load really needs.
 
 <table>
   <tr>
-    <td width="52%"><img src="screenshots/popup.png" alt="The Aeolus popup: temperatures, modes, fan speed slider and every fan header"></td>
-    <td>
-      <b>On the machine it was built on</b> (Ryzen 7 7700, 240 mm AIO, ASUS TUF B650):<br><br>
-      <b>Before</b>: firmware curves, radiator fans at a flat 100% (2050 rpm), pump at 3400 rpm, idle or not.<br><br>
-      <b>Idle in Auto</b>: radiator fans at 790 rpm, pump at 2300 rpm.<br><br>
-      <b>Four minutes of full load on all 16 threads in Auto</b>: the CPU holds at 70–70.5 °C with the fans at about 51% (1380 rpm), and is back at idle speed 30 seconds after the load ends.
-    </td>
+    <td align="center" width="50%"><img src="screenshots/popup.png" alt="Auto under a full load: CPU at 71 °C, fans at 63%"></td>
+    <td align="center" width="50%"><img src="screenshots/manual.png" alt="Manual: the fans held at 45% with the slider"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Auto</b>, under a full load: the CPU held at its 70 °C target</td>
+    <td align="center"><b>Manual</b>: drag the slider, the fans follow</td>
   </tr>
 </table>
 
+### On the machine it was built on
+
+Ryzen 7 7700, 240 mm liquid cooler, ASUS TUF B650 (Nuvoton NCT6799):
+
+| | Firmware curves (before) | Aeolus, Auto |
+|---|---|---|
+| **Idle** | radiator fans flat at **100%** (2050 rpm), pump at 3400 rpm | radiator fans at **790 rpm**, pump at 2300 rpm |
+| **4 min of full load, all 16 threads** | the same 100% | CPU steady at **70–70.5 °C**, fans at about **51%** (1380 rpm) |
+| **After the load** | the same 100% | back at idle speed within **30 s** |
+
 ## Features
 
-- **Four modes**: Auto (the quietest that holds a target), Silent, Performance
-  and Manual, with a fan speed slider right in the popup.
-- **Temperatures at a glance**: CPU and, for NVIDIA cards, GPU, each with a
-  meter toward the emergency limit.
-- **Every header listed** with its duty and rpm, and a warning if one stops.
-- **Spike filtering**: a Ryzen jumping 20 °C for a second doesn't spin the
-  fans up; a real load does, within seconds, and they wind down gently after.
-- **GPU aware**: a hot graphics card lifts the case/radiator fans too.
-- **Measured, not guessed**: setup runs each header through a few speeds to
-  tell pumps from fans and find where they stop.
-- **Safety rails in every mode** (see [Safety](#safety)), covered by tests.
-- English, Portuguese, Spanish, French and German.
+| | |
+|---|---|
+| 🤫 **Auto: the least fan it takes** | Holds the CPU under a target (70 °C) instead of following a fixed curve: fans stay at their floor until a load pushes past the target, then speed up exactly as far as it takes to hold it. |
+| 🎚️ **Modes and a slider** | Auto, Silent, Performance, or Manual with a fan speed slider right in the popup. Drag or scroll it and Aeolus switches to Manual. |
+| 🌡️ **Temperatures at a glance** | CPU and (for NVIDIA cards) GPU, big, each with a meter toward the emergency limit; every header with its duty and rpm. |
+| 🛡️ **Safety rails, always on** | 100% when hot, a floor the pump never goes under, full speed if a fan stops or a sensor is lost, and the motherboard's own curves back whenever the service stops. See [Safety](#safety). |
+| 🌀 **No spin-ups on spikes** | A Ryzen jumping 20 °C for a second doesn't rev the fans; a real load does, within seconds, and they wind down gently after. |
+| 🎮 **GPU aware** | A hot graphics card lifts the case and radiator fans too, not the pump. |
+| 📏 **Measured, not guessed** | Setup runs each header through a few speeds to tell the pump from the fans and find where they stop. |
+| ✅ **Tested** | 43 automated tests, including the service end to end on a fake `/sys/class/hwmon`, plus the rails exercised on real hardware (`kill -9`, frozen process, forced emergency). |
+| 🌍 **Multilingual** | English, Português, Español, Français and Deutsch, following your system locale. |
 
 ## Requirements
 
@@ -108,6 +117,9 @@ copy it.
 
 ## Modes
 
+Click the fan icon in the bar to open the popup, then pick a mode.
+
+
 | Mode | What it does |
 |---|---|
 | **Auto** (default) | The quietest that keeps the CPU under its target (70 °C). Fans sit at their floor; when a load pushes the CPU past the target, they speed up exactly as far as it takes to hold it, and wind back down when it's over. Never below Silent. |
@@ -118,8 +130,16 @@ copy it.
 The pump is driven separately from the fans: it starts higher (a pump is quiet
 and is what carries the heat to the radiator) and gets a share of Auto's boost.
 
-In the popup, <kbd>←</kbd>/<kbd>→</kbd> cycle the modes, <kbd>↑</kbd>/<kbd>↓</kbd> scroll.
-The bar icon turns red when a safety rail is active.
+| Shortcut | What it does |
+|---|---|
+| **Click** the icon | Open the popup |
+| `←` / `→` in the popup | Cycle the modes |
+| `↑` / `↓` in the popup | Scroll |
+| **Scroll** on the slider | Change the fan speed in steps of 5% |
+| `Esc` | Close the popup |
+
+The icon turns **red** when a safety rail is active (too hot, a fan stopped, no
+temperature); the popup says which.
 
 ## Safety
 
