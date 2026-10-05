@@ -10,7 +10,8 @@ One file, two sides:
                     performance, or "manual N" (fans at N%); any member of
                     the control group may.
   aeolus status     what the service is doing right now (--json for raw).
-  aeolus setup      (root) find the headers, measure them, write the config.
+  aeolus setup      (root) find the headers, measure them, write the config
+                    (--force to replace an existing one).
   aeolus restore    (root) hand every header back to the firmware.
 
 Modes:
@@ -745,6 +746,8 @@ def measure(pwm_path, fan_path, value, settle=4.0):
 def setup(args):
     if os.geteuid() != 0:
         raise SystemExit("aeolus setup must run as root (sudo aeolus setup)")
+    if os.path.exists(CONFIG) and "--force" not in args:
+        raise SystemExit("%s already exists; `sudo aeolus setup --force` replaces it" % CONFIG)
     found = []
     for d in hwmon_dirs():
         for i in range(1, 17):

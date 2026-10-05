@@ -188,8 +188,8 @@ editing it: `sudo systemctl restart aeolus`):
 | `channels` | from setup | `chip`, `pwm`, `role` (`pump`/`fan`), `label`, `floor` (%) |
 | `curves` | built in | optional `{"silent": {"fan": [[temp, %], …]}, "performance": …}` |
 
-To measure again (new fans, a header moved): `sudo rm /etc/aeolus/config.json`
-and run the installer again.
+To measure again (new fans, a header moved): `sudo aeolus setup --force`, then
+`sudo systemctl restart aeolus`.
 
 ## Command line
 
@@ -197,7 +197,7 @@ and run the installer again.
 aeolus status            # mode, temperatures, every header
 aeolus status --json
 aeolus mode auto         # or silent, performance, "manual 45"
-sudo aeolus setup        # measure the headers and write the config
+sudo aeolus setup        # measure the headers and write the config (--force to redo)
 sudo aeolus restore      # hand the headers back to the firmware now
 journalctl -u aeolus     # what the service did, and why
 ```
