@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* Source of assets/banner.png and preview.png; render with render.sh.
+   Everything is sized in --u (1/64 of the height) so both sizes share one layout.
+   The panel stays whole and inside the middle 76% of the height, which is what
+   the marketplace card keeps when it crops the preview. */
+:root{--bg:#090a14;--text:#eef3fb;--muted:#9aa6bf}
+*{margin:0;box-sizing:border-box}
+html,body{width:var(--w);height:var(--h);overflow:hidden;background:var(--bg)}
+body{font-family:"Inter Variable",Inter,sans-serif;color:var(--text);position:relative}
+.glow{position:absolute;border-radius:50%;filter:blur(calc(var(--u)*9))}
+.streams{position:absolute;inset:0;opacity:.5}
+.left{position:absolute;left:calc(var(--u)*5.5);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:calc(var(--u)*62)}
+.logo{display:flex;align-items:center;gap:calc(var(--u)*1.6)}
+.logo img{width:calc(var(--u)*8);height:calc(var(--u)*8);filter:drop-shadow(0 calc(var(--u)*.6) calc(var(--u)*2) rgba(0,0,0,.6))}
+h1{font-family:"JetBrains Mono";font-weight:800;font-size:calc(var(--u)*6.6);letter-spacing:-.045em;line-height:1}
+.kicker{font-family:"JetBrains Mono";font-size:calc(var(--u)*1.05);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:calc(var(--u)*.5)}
+.tag{font-size:calc(var(--u)*2.7);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-top:calc(var(--u)*2.6)}
+.wind{background:linear-gradient(90deg,#7CF5E4,#2EC5FF,#6B5CFF);-webkit-background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:calc(var(--u)*1.45);margin-top:calc(var(--u)*1.4);line-height:1.5;max-width:calc(var(--u)*46)}
+.sub b{color:var(--text);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:calc(var(--u)*.7);margin-top:calc(var(--u)*2.4);max-width:calc(var(--u)*60)}
+.chip{font-family:"JetBrains Mono";font-size:calc(var(--u)*1.05);font-weight:600;padding:calc(var(--u)*.5) calc(var(--u)*.95);border-radius:calc(var(--u)*.5);color:#e6eef8;display:flex;align-items:center;gap:calc(var(--u)*.6);
+ background:color-mix(in srgb,var(--c) 12%,transparent);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);box-shadow:0 0 calc(var(--u)*1.6) color-mix(in srgb,var(--c) 26%,transparent)}
+.chip i{width:calc(var(--u)*.75);height:calc(var(--u)*.75);border-radius:50%;background:var(--c);box-shadow:0 0 calc(var(--u)*.8) var(--c)}
+.shot{position:absolute;right:calc(var(--u)*6);top:12%;height:76%;
+ box-shadow:0 calc(var(--u)*2.5) calc(var(--u)*6) rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.06)}
+.shot img{display:block;height:100%}
+</style></head><body>
+<div class="glow" style="width:36%;height:62%;right:14%;top:-10%;background:#2EC5FF;opacity:.36"></div>
+<div class="glow" style="width:30%;height:55%;right:-6%;top:10%;background:#6B5CFF;opacity:.42"></div>
+<div class="glow" style="width:32%;height:55%;right:22%;bottom:-16%;background:#7CF5E4;opacity:.22"></div>
+<svg class="streams" viewBox="0 0 1600 900" preserveAspectRatio="none">
+  <g fill="none" stroke="#2EC5FF" stroke-width="1.2" stroke-linecap="round">
+    <path d="M-20 180 C300 120 520 260 860 200 S1300 120 1640 190" stroke-opacity=".22"/>
+    <path d="M-20 300 C260 250 560 360 900 300 S1320 230 1640 300" stroke-opacity=".14"/>
+    <path d="M-20 640 C320 700 600 560 940 630 S1340 720 1640 640" stroke-opacity=".16"/>
+    <path d="M-20 760 C280 720 620 820 960 760 S1360 700 1640 770" stroke-opacity=".1"/>
+  </g>
+</svg>
+<div class="left">
+  <div class="logo"><img src="../aeolus-app-icon.svg"><div><h1>Aeolus</h1><div class="kicker">for Omarchy · fan control</div></div></div>
+  <div class="tag">Your PC, <span class="wind">as quiet as it can be</span>,<br>and never too hot.</div>
+  <div class="sub"><b>Auto</b> holds the CPU under a target with the least fan it takes: idle is near silent, a long load gets just enough air. <b>Silent</b>, <b>Performance</b> and a speed slider too, right from the bar.</div>
+  <div class="chips">
+    <span class="chip" style="--c:#7CF5E4"><i></i>Case fans</span>
+    <span class="chip" style="--c:#2EC5FF"><i></i>Radiator fans</span>
+    <span class="chip" style="--c:#6B5CFF"><i></i>AIO pump</span>
+    <span class="chip" style="--c:#ff5c7a"><i></i>100% when hot</span>
+    <span class="chip" style="--c:#ffd25c"><i></i>Firmware fallback</span>
+  </div>
+</div>
+<div class="shot"><img src="../../screenshots/popup.png" alt=""></div>
+<script>
+const p=new URLSearchParams(location.search), w=+p.get('w'), h=+p.get('h');
+const r=document.documentElement.style;
+r.setProperty('--w',w+'px'); r.setProperty('--h',h+'px'); r.setProperty('--u',(h/64)+'px');
+</script></body></html>

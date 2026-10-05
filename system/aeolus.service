@@ -1,0 +1,36 @@
+# Installed by Aeolus (diogocezar.aeolus)
+[Unit]
+Description=Aeolus fan control
+Documentation=https://github.com/diogocezar/omarchy-aeolus
+After=systemd-modules-load.service
+
+[Service]
+Type=notify
+NotifyAccess=main
+ExecStart=/usr/local/bin/aeolus daemon
+# Runs after every stop, crash, kill or watchdog timeout: the headers go back
+# to the firmware's own curves whenever Aeolus isn't driving them.
+ExecStopPost=/usr/local/bin/aeolus restore
+Restart=always
+RestartSec=2
+WatchdogSec=15
+TimeoutStopSec=10
+RuntimeDirectory=aeolus
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+StateDirectory=aeolus
+
+# hardening; /sys stays writable for the PWM files
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateNetwork=yes
+NoNewPrivileges=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target
